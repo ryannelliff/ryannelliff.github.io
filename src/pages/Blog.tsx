@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
-import { loadBlogPosts } from '../utils/dataLoader'
+import { loadBlogPosts, type BlogPost } from '../utils/dataLoader'
 
 export default function Blog() {
-    const [blogs, setBlogs] = useState([])
+    const [blogs, setBlogs] = useState<BlogPost[]>([])
     const [blogIndex, setBlogIndex] = useState(0)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        async function fetchBlogs() {
+        async function fetchBlogs(): Promise<void> {
             try {
                 const data = await loadBlogPosts()
                 setBlogs(data)
@@ -21,11 +21,11 @@ export default function Blog() {
         fetchBlogs()
     }, [])
 
-    const handleBlogPrev = () => {
+    const handleBlogPrev = (): void => {
         setBlogIndex((prev) => (prev === 0 ? blogs.length - 1 : prev - 1))
     }
 
-    const handleBlogNext = () => {
+    const handleBlogNext = (): void => {
         setBlogIndex((prev) => (prev === blogs.length - 1 ? 0 : prev + 1))
     }
 

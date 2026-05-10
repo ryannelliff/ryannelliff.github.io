@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import Layout from './layout/Layout'
 import Homepage from './pages/Homepage'
 import Blog from './pages/Blog'
@@ -21,13 +21,16 @@ function App() {
 
   // Handle navigation links
   useEffect(() => {
-    const handleLinkClick = (e) => {
-      const link = e.target.closest('a[href]')
-      if (link && link.getAttribute('href').startsWith('/')) {
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = e.target as Element | null
+      const link = target?.closest('a[href]') as HTMLAnchorElement | null
+      if (link && link.getAttribute('href')?.startsWith('/')) {
         e.preventDefault()
         const href = link.getAttribute('href')
-        setCurrentPage(href)
-        window.history.pushState({}, '', href)
+        if (href) {
+          setCurrentPage(href)
+          window.history.pushState({}, '', href)
+        }
       }
     }
 
@@ -35,7 +38,7 @@ function App() {
     return () => document.removeEventListener('click', handleLinkClick)
   }, [])
 
-  const renderPage = () => {
+  const renderPage = (): ReactNode => {
     switch (currentPage) {
       case '/blog':
         return <Blog />

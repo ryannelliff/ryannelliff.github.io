@@ -1,9 +1,28 @@
 import { useState, useEffect } from 'react'
 
+type SegmentStyle = 'light' | 'semibold-italic'
+
+type TextSegment = {
+    text: string
+    style: SegmentStyle
+}
+
+type DisplaySegment = TextSegment & {
+    display: string
+}
+
+const textSegments: TextSegment[] = [
+    { text: "Hello, I'm Ryann.\n", style: 'light' },
+    { text: "A Kansas City-based designer with a mind for \n", style: 'light' },
+    { text: "visual storytelling, social media marketing,", style: 'semibold-italic' },
+    { text: " and ", style: 'light' },
+    { text: "brand creation.", style: 'semibold-italic' },
+]
+
 export default function Homepage() {
     const [projectIndex, setProjectIndex] = useState(0)
     const [blogIndex, setBlogIndex] = useState(0)
-    const [displaySegments, setDisplaySegments] = useState([
+    const [displaySegments, setDisplaySegments] = useState<DisplaySegment[]>([
         { text: "Hello, I'm Ryann.\n", style: 'light', display: '' },
         { text: "A Kansas City-based designer with a\n", style: 'light', display: '' },
         { text: "mind for ", style: 'light', display: '' },
@@ -11,14 +30,6 @@ export default function Homepage() {
         { text: " and ", style: 'light', display: '' },
         { text: "brand creation.", style: 'semibold-italic', display: '' },
     ])
-
-    const textSegments = [
-        { text: "Hello, I'm Ryann.\n", style: 'light' },
-        { text: "A Kansas City-based designer with a mind for \n", style: 'light' },
-        { text: "visual storytelling, social media marketing,", style: 'semibold-italic' },
-        { text: " and ", style: 'light' },
-        { text: "brand creation.", style: 'semibold-italic' },
-    ]
 
     const totalLength = textSegments.reduce((acc, seg) => acc + seg.text.length, 0)
 
@@ -28,11 +39,11 @@ export default function Homepage() {
         const typeSpeed = 50
         const eraseSpeed = 25
         const pauseTime = 10000
-        let timeoutId
+        let timeoutId = 0
 
-        const updateDisplay = (index) => {
+        const updateDisplay = (index: number): void => {
             let currentChar = 0
-            const newSegments = textSegments.map(segment => {
+            const newSegments = textSegments.map((segment) => {
                 const segmentLength = segment.text.length
                 if (currentChar + segmentLength <= index) {
                     currentChar += segmentLength
@@ -41,14 +52,13 @@ export default function Homepage() {
                     const charsToShow = index - currentChar
                     currentChar += segmentLength
                     return { ...segment, display: segment.text.slice(0, charsToShow) }
-                } else {
-                    return { ...segment, display: '' }
                 }
+                return { ...segment, display: '' }
             })
             setDisplaySegments(newSegments)
         }
 
-        const typePhrase = () => {
+        const typePhrase = (): void => {
             if (direction === 'forward') {
                 if (charIndex <= totalLength) {
                     updateDisplay(charIndex)
@@ -73,7 +83,7 @@ export default function Homepage() {
 
         typePhrase()
         return () => window.clearTimeout(timeoutId)
-    }, [])
+    }, [totalLength])
 
     const projects = [
         {
