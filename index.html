@@ -1,20 +1,154 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-  <title>Ryann Elliff - Portfolio</title>
+    <!-- Meta Tags-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Ryann Elliff — Portfolio</title>
+    <meta name="description"
+        content="Portfolio website of Ryann Elliff — showcasing web development, design, projects, and experience." />
+
+    <meta name="author" content="Your Name" />
+    <meta name="theme-color" content="#0f172a" />
+
+    <meta name="robots" content="index, follow" />
+
+    <!-- Shows search engines that this is your preferred "master" file -->
+    <link rel="canonical" href="https://ryannelliff.com/" />
+
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+
+    <!-- SVG favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- PNG favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <!-- Apple devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Web app manifest -->
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Your Name — Portfolio" />
+    <meta property="og:description" content="Explore projects, skills, and experience from Your Name." />
+    <meta property="og:url" content="https://yourdomain.com/" />
+    <meta property="og:site_name" content="Your Name Portfolio" />
+    <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Your Name — Portfolio" />
+    <meta name="twitter:description" content="Explore projects, skills, and experience from Your Name." />
+    <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
+
+    <!-- Performance / UX -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <script type="module" src="hamburger.js"></script>
+
+    <!-- Styles sheet-->
+    <link rel="stylesheet" href="styles.css" />
+
 </head>
 
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+
+    <!-- =========================
+       Navbar
+  ========================== -->
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <img src="logo.png" alt="Website Logo" />
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
+                ☰
+            </button>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="video-container">
+            <video id="heroVideo" autoplay muted loop playsinline preload="auto">
+                <source src="media/SlimIntro.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="hero-overlay" aria-hidden="false">
+            <h1 class="hero-title"><span id="type-text">Welcome</span></h1>
+        </div>
+    </section>
+
+    <h1>My First Heading</h1>
+    <p>My first paragraph.</p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const words = [
+                "Hi, I'm Ryann.\nA Kansas City-based designer with a mind for visual storytelling, social media marketing, and brand creation."
+            ];
+            const el = document.getElementById('type-text');
+            const TYPING_SPEED = 80;
+            const DELETING_SPEED = 35;
+            const PAUSE = 7200;
+
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function tick() {
+                const current = words[wordIndex];
+                if (!isDeleting) {
+                    charIndex++;
+                    el.textContent = current.slice(0, charIndex);
+                    if (charIndex === current.length) {
+                        isDeleting = true;
+                        setTimeout(tick, PAUSE);
+                        return;
+                    }
+                    setTimeout(tick, TYPING_SPEED);
+                } else {
+                    charIndex--;
+                    el.textContent = current.slice(0, charIndex);
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        wordIndex = (wordIndex + 1) % words.length;
+                        setTimeout(tick, TYPING_SPEED);
+                        return;
+                    }
+                    setTimeout(tick, DELETING_SPEED);
+                }
+            }
+
+            tick();
+        });
+    </script>
+
 </body>
 
 </html>

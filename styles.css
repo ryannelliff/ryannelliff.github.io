@@ -1,0 +1,207 @@
+/* =========================
+   Reset
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   Google Fonts
+========================= */
+.montserrat-<uniquifier> {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+}
+
+/* =========================
+   Body
+========================= */
+body {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+/* =========================
+   Navbar
+========================= */
+.navbar {
+    width: 100%;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 2rem;
+}
+
+/* =========================
+   Logo
+========================= */
+.logo img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+/* =========================
+   Navigation Links
+========================= */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    font-weight: 600;
+
+    transition: color 0.3s ease;
+}
+
+/* Hover Effect */
+.nav-links li a:hover {
+    color: red;
+}
+
+/* =========================
+   Mobile Menu Button
+========================= */
+.menu-toggle {
+    display: none;
+
+    background: none;
+    border: none;
+
+    font-size: 2rem;
+    cursor: pointer;
+
+    color: black;
+}
+
+/* =========================
+   Responsive Design
+========================= */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 80px;
+        right: 0;
+
+        background-color: white;
+
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 1.5rem;
+        padding: 2rem 0;
+
+        border-bottom: 1px solid #e5e5e5;
+
+        display: none;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+}
+
+
+/* =========================
+   Hero video + overlay
+========================= */
+.hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.video-container {
+    width: 100%;
+    display: block;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.35));
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+    pointer-events: none;
+    font-weight: 300;
+}
+
+
+.hero-title {
+    margin: 0;
+}
+
+/* typed words weight */
+#type-text {
+    font-weight: 300;
+    font-family: "Montserrat", sans-serif;
+    display: inline-block;
+    white-space: pre-wrap;
+}
+
+/* responsive sizing for typed text */
+#type-text {
+    font-size: clamp(1rem, 3.8vw, 2rem);
+    line-height: 1.08;
+}
+
+@media (min-width: 1200px) {
+    .hero {
+        max-height: 60vh;
+    }
+}
