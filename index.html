@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="mytheme" lang="en">
 
 <head>
     <!-- Meta Tags-->
@@ -58,9 +58,17 @@
 
     <script type="module" src="hamburger.js"></script>
 
+
+
+
+    <!-- Daisy UI CSS plugin  -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+
     <!-- Styles sheet-->
     <link rel="stylesheet" href="styles.css" />
-
 </head>
 
 <body>
@@ -68,29 +76,19 @@
     <!-- =========================
        Navbar
   ========================== -->
-    <nav class="navbar">
-        <div class="nav-container">
-
-            <!-- Logo -->
-            <a href="#" class="logo">
-                <img src="logo.png" alt="Website Logo" />
-            </a>
-
-            <!-- Mobile Menu Button -->
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
-                ☰
-            </button>
-
-            <!-- Navigation Links -->
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-
+    <div class="navbar shadow-sm">
+        <div class="flex-1">
+            <a class="">Ryann Elliff</a>
         </div>
-    </nav>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal px-">
+                <li><a class="btn btn-outline btn-secondary mr-2">About</a></li>
+                <li><a class="btn btn-outline btn-secondary mr-2">Projects</a></li>
+                <li><a class="btn btn-outline btn-secondary mr-2">Blog</a></li>
+                <li><a class="btn btn-outline btn-secondary mr-2">Contact</a></li>
+            </ul>
+        </div>
+    </div>
 
     <section class="hero">
         <div class="video-container">
