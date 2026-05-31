@@ -19,51 +19,136 @@
     <link rel="canonical" href="https://ryannelliff.com/" />
 
 
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const messages = [
+                { text: "Hi, I'm Ryann.", style: '', newLine: true },
+                { text: "A Kansas City-based designer with a mind for", style: '', newLine: true },
+                { text: "visual storytelling, social media marketing,", style: 'bold-italic', newLine: true },
+                { text: " and ", style: '', newLine: false },
+                { text: "brand creation.", style: 'bold-italic', newLine: false }
+            ];
 
-    <!-- SVG favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+            const el = document.getElementById('type-text');
+            const TYPING_SPEED = 55;
+            const DELETING_SPEED = 30;
+            const BETWEEN_SEGMENT_PAUSE = 200;
+            const END_PAUSE = 2200;
 
-    <!-- PNG favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+            el.innerHTML = '';
+            const container = document.createElement('div');
+            container.className = 'typed-wrapper';
+            el.appendChild(container);
 
-    <!-- Apple devices -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+            let msgIndex = 0;
+            let charIndex = 0;
+            const spans = []; // track created spans for reverse deletion
 
-    <!-- Web app manifest -->
-    <link rel="manifest" href="/site.webmanifest" />
+            let deleting = false;
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Your Name — Portfolio" />
-    <meta property="og:description" content="Explore projects, skills, and experience from Your Name." />
-    <meta property="og:url" content="https://yourdomain.com/" />
-    <meta property="og:site_name" content="Your Name Portfolio" />
-    <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
+            function applyClassesForStyle(span, style) {
+                span.classList.remove('style-bold', 'style-italic');
+                if (style === 'bold' || style === 'bold-italic') span.classList.add('style-bold');
+                if (style === 'italic' || style === 'bold-italic') span.classList.add('style-italic');
+            }
 
-    <!-- Twitter / X Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Your Name — Portfolio" />
-    <meta name="twitter:description" content="Explore projects, skills, and experience from Your Name." />
-    <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
+            function typeNextChar() {
+                const current = messages[msgIndex];
+                let currentSpan = container.querySelector('.current');
+                if (!currentSpan) {
+                    // if this segment should start on a new line and container isn't empty, insert br
+                    if (current.newLine && container.childNodes.length > 0) container.appendChild(document.createElement('br'));
+                    currentSpan = document.createElement('span');
+                    currentSpan.className = 'current segment';
+                    applyClassesForStyle(currentSpan, current.style);
+                    container.appendChild(currentSpan);
+                }
 
-    <!-- Performance / UX -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+                charIndex++;
+                currentSpan.textContent = current.text.slice(0, charIndex);
 
-    <script type="module" src="hamburger.js"></script>
+                if (charIndex >= current.text.length) {
+                    // finalize this segment
+                    currentSpan.classList.remove('current');
+                    spans.push(currentSpan);
+                    msgIndex++;
+                    charIndex = 0;
+                    if (msgIndex >= messages.length) {
+                        // finished all segments; pause then start reverse deletion
+                        setTimeout(() => {
+                            deleting = true;
+                            startReverseDeletion();
+                        }, END_PAUSE);
+                        return;
+                    }
+                    setTimeout(typeNextChar, BETWEEN_SEGMENT_PAUSE);
+                } else {
+                    setTimeout(typeNextChar, TYPING_SPEED);
+                }
+            }
 
+            function startReverseDeletion() {
+                let delIndex = spans.length - 1;
+                let delChar = spans[delIndex] ? spans[delIndex].textContent.length : 0;
 
+                function deleteStep() {
+                    if (delIndex < 0) {
+                        // finished deleting everything, restart typing after a short pause
+                        spans.length = 0;
+                        deleting = false;
+                        setTimeout(() => {
+                            container.innerHTML = '';
+                            msgIndex = 0;
+                            charIndex = 0;
+                            setTimeout(typeNextChar, BETWEEN_SEGMENT_PAUSE);
+                        }, BETWEEN_SEGMENT_PAUSE);
+                        return;
+                    }
 
+                    const span = spans[delIndex];
+                    if (!span) {
+                        delIndex--;
+                        delChar = spans[delIndex] ? spans[delIndex].textContent.length : 0;
+                        setTimeout(deleteStep, DELETING_SPEED);
+                        return;
+                    }
+
+                    delChar--;
+                    if (delChar >= 0) {
+                        span.textContent = span.textContent.slice(0, delChar);
+                    }
+
+                    if (delChar <= 0) {
+                        // remove span and any preceding br that was added for newLine
+                        const prev = span.previousSibling;
+                        span.remove();
+                        if (prev && prev.nodeName === 'BR') prev.remove();
+                        spans.pop();
+                        delIndex--;
+                        delChar = spans[delIndex] ? spans[delIndex].textContent.length : 0;
+                        setTimeout(deleteStep, DELETING_SPEED);
+                        return;
+                    }
+
+                    setTimeout(deleteStep, DELETING_SPEED);
+                }
+
+                deleteStep();
+            }
+
+            typeNextChar();
+        });
+    </script>
 
     <!-- Daisy UI CSS plugin  -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --breakpoint-sm: 360px;
+        }
+    </style>
 
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
 
@@ -76,16 +161,31 @@
     <!-- =========================
        Navbar
   ========================== -->
-    <div class="navbar shadow-sm">
+    <div class="navbar bg-base-100">
         <div class="flex-1">
-            <a class="">Ryann Elliff</a>
+            Ryann Elliff
         </div>
-        <div class="flex-none">
-            <ul class="menu menu-horizontal px-">
-                <li><a class="btn btn-outline btn-secondary mr-2">About</a></li>
-                <li><a class="btn btn-outline btn-secondary mr-2">Projects</a></li>
-                <li><a class="btn btn-outline btn-secondary mr-2">Blog</a></li>
-                <li><a class="btn btn-outline btn-secondary mr-2">Contact</a></li>
+
+        <!-- Desktop Menu (Visible on lg screens and up) -->
+        <div class="flex-none hidden min-[550px]:flex">
+            <ul class="menu menu-horizontal px-1">
+                <li><a class="btn btn-outline btn-secondary mr-3">About</a></li>
+                <li><a class="btn btn-outline btn-secondary mr-3">Projects</a></li>
+                <li><a class="btn btn-outline btn-secondary mr-3">Blog</a></li>
+                <li><a class="btn btn-outline btn-secondary mr-3">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Mobile Hamburger Menu (Visible only on screens smaller than lg) -->
+        <div class="flex-none min-[550px]:hidden dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost">
+                <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                </svg>
+            </div>
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a>Link 1</a></li>
+                <li><a>Link 2</a></li>
             </ul>
         </div>
     </div>
@@ -97,55 +197,14 @@
                 Your browser does not support the video tag.
             </video>
         </div>
-        <div class="hero-overlay" aria-hidden="false">
-            <h1 class="hero-title"><span id="type-text">Welcome</span></h1>
+        <div aria-hidden="false">
+            <h1 class="hero-title"><span class="text-secondary-content" id="type-text">Welcome</span></h1>
         </div>
     </section>
 
     <h1>My First Heading</h1>
     <p>My first paragraph.</p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const words = [
-                "Hi, I'm Ryann.\nA Kansas City-based designer with a mind for visual storytelling, social media marketing, and brand creation."
-            ];
-            const el = document.getElementById('type-text');
-            const TYPING_SPEED = 80;
-            const DELETING_SPEED = 35;
-            const PAUSE = 7200;
-
-            let wordIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-
-            function tick() {
-                const current = words[wordIndex];
-                if (!isDeleting) {
-                    charIndex++;
-                    el.textContent = current.slice(0, charIndex);
-                    if (charIndex === current.length) {
-                        isDeleting = true;
-                        setTimeout(tick, PAUSE);
-                        return;
-                    }
-                    setTimeout(tick, TYPING_SPEED);
-                } else {
-                    charIndex--;
-                    el.textContent = current.slice(0, charIndex);
-                    if (charIndex === 0) {
-                        isDeleting = false;
-                        wordIndex = (wordIndex + 1) % words.length;
-                        setTimeout(tick, TYPING_SPEED);
-                        return;
-                    }
-                    setTimeout(tick, DELETING_SPEED);
-                }
-            }
-
-            tick();
-        });
-    </script>
 
 </body>
 
