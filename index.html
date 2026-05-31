@@ -161,7 +161,7 @@
     <!-- =========================
        Navbar
   ========================== -->
-    <div class="navbar bg-base-100">
+    <div class="navbar">
         <div class="flex-1">
             Ryann Elliff
         </div>
@@ -169,10 +169,10 @@
         <!-- Desktop Menu (Visible on lg screens and up) -->
         <div class="flex-none hidden min-[550px]:flex">
             <ul class="menu menu-horizontal px-1">
-                <li><a class="btn btn-outline btn-secondary mr-3">About</a></li>
-                <li><a class="btn btn-outline btn-secondary mr-3">Projects</a></li>
-                <li><a class="btn btn-outline btn-secondary mr-3">Blog</a></li>
-                <li><a class="btn btn-outline btn-secondary mr-3">Contact</a></li>
+                <li><a class="btn btn-outline btn-primary mr-3">About</a></li>
+                <li><a class="btn btn-outline btn-primary mr-3">Projects</a></li>
+                <li><a class="btn btn-outline btn-primary mr-3">Blog</a></li>
+                <li><a class="btn btn-outline btn-primary mr-3">Contact</a></li>
             </ul>
         </div>
 
@@ -190,20 +190,138 @@
         </div>
     </div>
 
-    <section class="hero">
-        <div class="video-container">
-            <video id="heroVideo" autoplay muted loop playsinline preload="auto">
-                <source src="media/SlimIntro.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-        </div>
+    <section class="hero w-screen h-[40vh] max-h-[40vh] md:h-[50vh] lg:h-[70vh] relative">
+
+        <video id="heroVideo" autoplay muted loop playsinline preload="auto"
+            class="w-full h-[40vh] max-h-[40vh] aspect-video object-cover" src="media/SlimIntro.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
         <div aria-hidden="false">
             <h1 class="hero-title"><span class="text-secondary-content" id="type-text">Welcome</span></h1>
         </div>
     </section>
 
+
+
     <h1>My First Heading</h1>
     <p>My first paragraph.</p>
+
+    <!--Beginning of Spotlight Carousel-->
+
+    <div class="carousel carousel-center w-screen px-4">
+        <div class="carousel-item w-4">
+        </div>
+        <!-- Project 1 - Carousel Item-->
+        <div class="carousel-item">
+            <div
+                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                <div class="card w-90">
+                    <figure>
+                        <img src="media/placeholder-P1.jpg" alt="Shoes" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            Project 1
+                            <div class="badge badge-primary">NEW</div>
+                        </h2>
+                        <p>A card component has a figure, a body part, and inside body there are title and actions
+                            parts
+                        </p>
+                        <div class="card-actions justify-end">
+                            <div class="badge badge-outline">Fashion</div>
+                            <div class="badge badge-outline">Products</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 2 - Carousel Item-->
+        <div class="carousel-item">
+            <div
+                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                <div class="card w-90">
+                    <figure>
+                        <img src="media/placeholder-P2.jpg" alt="Shoes" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            Project 2
+                            <div class="badge badge-primary">NEW</div>
+                        </h2>
+                        <p>A card component has a figure, a body part, and inside body there are title and actions
+                            parts
+                        </p>
+                        <div class="card-actions justify-end">
+                            <div class="badge badge-outline">Fashion</div>
+                            <div class="badge badge-outline">Products</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 3 - Carousel Item-->
+        <div class="carousel-item">
+            <div
+                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                <div class="card w-90">
+                    <figure>
+                        <img src="media/placeholder-P3.jpg" alt="Shoes" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            Project 3
+                            <div class="badge badge-primary">NEW</div>
+                        </h2>
+                        <p>A card component has a figure, a body part, and inside body there are title and actions
+                            parts
+                        </p>
+                        <div class="card-actions justify-end">
+                            <div class="badge badge-outline">Fashion</div>
+                            <div class="badge badge-outline">Products</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 4 - Carousel Item-->
+        <div class="carousel-item">
+            <div
+                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                <div class="card w-90">
+                    <figure>
+                        <img src="media/placeholder-P4.jpg" alt="Shoes" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            Project 4
+                            <div class="badge badge-primary">NEW</div>
+                        </h2>
+                        <p>A card component has a figure, a body part, and inside body there are title and actions
+                            parts
+                        </p>
+                        <div class="card-actions justify-end">
+                            <div class="badge badge-outline">Fashion</div>
+                            <div class="badge badge-outline">Products</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
 
 
 </body>

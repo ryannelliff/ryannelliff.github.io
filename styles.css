@@ -10,12 +10,12 @@
     --color-base-300: oklch(100% 0.00011 271.152);
     --color-base-content: oklch(20% 0.042 265.755);
     --color-primary: oklch(63% 0.237 25.331);
-    --color-primary-content: oklch(75.082% 0.11982 147.774);
-    --color-secondary: oklch(59.029% 0.24224 29.223);
+    --color-primary-content: oklch(100% 0.00011 271.152);
+    --color-secondary: oklch(61.353% 0.11152 20.787);
     --color-secondary-content: oklch(100% 0 0);
     --color-accent: oklch(0% 0 0);
     --color-accent-content: oklch(28% 0.109 3.907);
-    --color-neutral: oklch(20% 0.042 265.755);
+    --color-neutral: oklch(89.755% 0.0001 271.152);
     --color-neutral-content: oklch(98% 0.002 247.839);
     --color-info: oklch(68% 0.169 237.323);
     --color-info-content: oklch(97% 0.014 254.604);
@@ -60,8 +60,6 @@
 #type-text .style-italic {
     font-style: italic;
 }
-
-
 
 
 /* 3. Phone size */
