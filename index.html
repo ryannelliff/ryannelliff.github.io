@@ -20,20 +20,14 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const messages = [
-                { text: "Hi, I'm Ryann.", style: '', newLine: true },
-                { text: "A Kansas City-based designer with a mind for", style: '', newLine: true },
-                { text: "visual storytelling, social media marketing,", style: 'bold-italic', newLine: true },
-                { text: " and ", style: '', newLine: false },
-                { text: "brand creation.", style: 'bold-italic', newLine: false }
-            ];
+        function createTypewriter(elId, messages, opts = {}) {
+            const TYPING_SPEED = opts.typingSpeed || 55;
+            const DELETING_SPEED = opts.deletingSpeed || 30;
+            const BETWEEN_SEGMENT_PAUSE = opts.segmentPause || 200;
+            const END_PAUSE = opts.endPause || 2200;
 
-            const el = document.getElementById('type-text');
-            const TYPING_SPEED = 55;
-            const DELETING_SPEED = 30;
-            const BETWEEN_SEGMENT_PAUSE = 200;
-            const END_PAUSE = 2200;
+            const el = document.getElementById(elId);
+            if (!el) return;
 
             el.innerHTML = '';
             const container = document.createElement('div');
@@ -42,9 +36,7 @@
 
             let msgIndex = 0;
             let charIndex = 0;
-            const spans = []; // track created spans for reverse deletion
-
-            let deleting = false;
+            const spans = [];
 
             function applyClassesForStyle(span, style) {
                 span.classList.remove('style-bold', 'style-italic');
@@ -56,7 +48,6 @@
                 const current = messages[msgIndex];
                 let currentSpan = container.querySelector('.current');
                 if (!currentSpan) {
-                    // if this segment should start on a new line and container isn't empty, insert br
                     if (current.newLine && container.childNodes.length > 0) container.appendChild(document.createElement('br'));
                     currentSpan = document.createElement('span');
                     currentSpan.className = 'current segment';
@@ -68,15 +59,12 @@
                 currentSpan.textContent = current.text.slice(0, charIndex);
 
                 if (charIndex >= current.text.length) {
-                    // finalize this segment
                     currentSpan.classList.remove('current');
                     spans.push(currentSpan);
                     msgIndex++;
                     charIndex = 0;
                     if (msgIndex >= messages.length) {
-                        // finished all segments; pause then start reverse deletion
                         setTimeout(() => {
-                            deleting = true;
                             startReverseDeletion();
                         }, END_PAUSE);
                         return;
@@ -93,9 +81,7 @@
 
                 function deleteStep() {
                     if (delIndex < 0) {
-                        // finished deleting everything, restart typing after a short pause
                         spans.length = 0;
-                        deleting = false;
                         setTimeout(() => {
                             container.innerHTML = '';
                             msgIndex = 0;
@@ -114,12 +100,9 @@
                     }
 
                     delChar--;
-                    if (delChar >= 0) {
-                        span.textContent = span.textContent.slice(0, delChar);
-                    }
+                    if (delChar >= 0) span.textContent = span.textContent.slice(0, delChar);
 
                     if (delChar <= 0) {
-                        // remove span and any preceding br that was added for newLine
                         const prev = span.previousSibling;
                         span.remove();
                         if (prev && prev.nodeName === 'BR') prev.remove();
@@ -137,6 +120,22 @@
             }
 
             typeNextChar();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const messages = [
+                { text: "Hi, I'm Ryann.", style: '', newLine: true },
+                { text: "A Kansas City-based designer with a mind for", style: '', newLine: true },
+                { text: "visual storytelling, social media marketing,", style: 'bold-italic', newLine: true },
+                { text: " and ", style: '', newLine: false },
+                { text: "brand creation.", style: 'bold-italic', newLine: false }
+            ];
+
+            // initialize on the hero video overlay
+            createTypewriter('type-text', messages);
+
+            // initialize on the banner video overlay (new element added in body)
+            createTypewriter('type-text-banner', messages);
         });
     </script>
 
@@ -184,137 +183,145 @@
                 </svg>
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Link 1</a></li>
-                <li><a>Link 2</a></li>
+                <li><a>About</a></li>
+                <li><a>Projects</a></li>
+                <li><a>Blog</a></li>
+                <li><a>Contact</a></li>
             </ul>
         </div>
     </div>
 
-    <section class="hero w-screen h-[40vh] max-h-[40vh] md:h-[50vh] lg:h-[70vh] relative">
 
-        <video id="heroVideo" autoplay muted loop playsinline preload="auto"
-            class="w-full h-[40vh] max-h-[40vh] aspect-video object-cover" src="media/SlimIntro.mp4" type="video/mp4">
-            Your browser does not support the video tag.
+    <div class="video-banner">
+        <!-- The background video -->
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="media/SlimIntro.mp4" type="video/mp4">
         </video>
 
-        <div aria-hidden="false">
-            <h1 class="hero-title"><span class="text-secondary-content" id="type-text">Welcome</span></h1>
+        <!-- Overlay content -->
+        <div class="banner-content">
+            <h1><span id="type-text-banner">Ryann Elliff - Intro Banner</span></h1>
         </div>
-    </section>
+    </div>
+
 
 
 
     <h1>My First Heading</h1>
     <p>My first paragraph.</p>
 
+
+
+
     <!--Beginning of Spotlight Carousel-->
 
-    <div class="carousel carousel-center w-screen px-4">
-        <div class="carousel-item w-4">
-        </div>
-        <!-- Project 1 - Carousel Item-->
-        <div class="carousel-item">
-            <div
-                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
-                <div class="card w-90">
-                    <figure>
-                        <img src="media/placeholder-P1.jpg" alt="Shoes" />
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            Project 1
-                            <div class="badge badge-primary">NEW</div>
-                        </h2>
-                        <p>A card component has a figure, a body part, and inside body there are title and actions
-                            parts
-                        </p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline">Fashion</div>
-                            <div class="badge badge-outline">Products</div>
+    <section class="grid h-screen place-items-center">
+
+        <div class="carousel carousel-center w-screen px-4 ">
+            <div class="carousel-item w-4">
+            </div>
+            <!-- Project 1 - Carousel Item-->
+            <div class="carousel-item">
+                <div
+                    class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                    <div class="card w-90">
+                        <figure>
+                            <img src="media/placeholder-P1.jpg" alt="Shoes" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Project 1
+                                <div class="badge badge-primary">NEW</div>
+                            </h2>
+                            <p>A card component has a figure, a body part, and inside body there are title and actions
+                                parts
+                            </p>
+                            <div class="card-actions justify-end">
+                                <div class="badge badge-outline">Fashion</div>
+                                <div class="badge badge-outline">Products</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Project 2 - Carousel Item-->
-        <div class="carousel-item">
-            <div
-                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
-                <div class="card w-90">
-                    <figure>
-                        <img src="media/placeholder-P2.jpg" alt="Shoes" />
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            Project 2
-                            <div class="badge badge-primary">NEW</div>
-                        </h2>
-                        <p>A card component has a figure, a body part, and inside body there are title and actions
-                            parts
-                        </p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline">Fashion</div>
-                            <div class="badge badge-outline">Products</div>
+            <!-- Project 2 - Carousel Item-->
+            <div class="carousel-item">
+                <div
+                    class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                    <div class="card w-90">
+                        <figure>
+                            <img src="media/placeholder-P2.jpg" alt="Shoes" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Project 2
+                                <div class="badge badge-primary">NEW</div>
+                            </h2>
+                            <p>A card component has a figure, a body part, and inside body there are title and actions
+                                parts
+                            </p>
+                            <div class="card-actions justify-end">
+                                <div class="badge badge-outline">Fashion</div>
+                                <div class="badge badge-outline">Products</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Project 3 - Carousel Item-->
-        <div class="carousel-item">
-            <div
-                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
-                <div class="card w-90">
-                    <figure>
-                        <img src="media/placeholder-P3.jpg" alt="Shoes" />
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            Project 3
-                            <div class="badge badge-primary">NEW</div>
-                        </h2>
-                        <p>A card component has a figure, a body part, and inside body there are title and actions
-                            parts
-                        </p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline">Fashion</div>
-                            <div class="badge badge-outline">Products</div>
+            <!-- Project 3 - Carousel Item-->
+            <div class="carousel-item">
+                <div
+                    class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                    <div class="card w-90">
+                        <figure>
+                            <img src="media/placeholder-P3.jpg" alt="Shoes" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Project 3
+                                <div class="badge badge-primary">NEW</div>
+                            </h2>
+                            <p>A card component has a figure, a body part, and inside body there are title and actions
+                                parts
+                            </p>
+                            <div class="card-actions justify-end">
+                                <div class="badge badge-outline">Fashion</div>
+                                <div class="badge badge-outline">Products</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Project 4 - Carousel Item-->
-        <div class="carousel-item">
-            <div
-                class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
-                <div class="card w-90">
-                    <figure>
-                        <img src="media/placeholder-P4.jpg" alt="Shoes" />
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            Project 4
-                            <div class="badge badge-primary">NEW</div>
-                        </h2>
-                        <p>A card component has a figure, a body part, and inside body there are title and actions
-                            parts
-                        </p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline">Fashion</div>
-                            <div class="badge badge-outline">Products</div>
+            <!-- Project 4 - Carousel Item-->
+            <div class="carousel-item">
+                <div
+                    class="rounded-xl border-2 border-transparent hover:border-neutral transition duration-300 ease-in-out">
+                    <div class="card w-90">
+                        <figure>
+                            <img src="media/placeholder-P4.jpg" alt="Shoes" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Project 4
+                                <div class="badge badge-primary">NEW</div>
+                            </h2>
+                            <p>A card component has a figure, a body part, and inside body there are title and actions
+                                parts
+                            </p>
+                            <div class="card-actions justify-end">
+                                <div class="badge badge-outline">Fashion</div>
+                                <div class="badge badge-outline">Products</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
-
-
-    </div>
+    </section>
 
 
 

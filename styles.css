@@ -35,6 +35,14 @@
     --noise: 0;
 }
 
+/* Basic reset to remove default browser margins that cause white gaps */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
 #type-text {
     padding: 2rem 2rem;
     display: inline-block;
@@ -76,6 +84,111 @@
 /* 4. Large Desktop size (Screens 1200px wide or wider) */
 @media (min-width: 1200px) {
     #type-text {
+        font-size: 30px;
+    }
+}
+
+/* The Container */
+.video-banner {
+    position: relative;
+    width: 100%;
+
+    /* 1. Control the height boundaries */
+    height: 60vh;
+    /* Standard fluid height on normal screens */
+    min-height: 400px;
+    /* Prevents it from getting squished on small mobile */
+    max-height: 650px;
+    /* THE FIX: Prevents it from getting too tall on wide screens */
+
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* On small viewports allow the video to crop by removing the forced min-height */
+@media (max-width: 480px),
+(max-height: 600px) {
+    .video-banner {
+        min-height: 0;
+        /* allow cropping; reduce container height slightly on very small screens */
+        height: 50vh;
+        max-height: none;
+    }
+
+    .banner-content {
+        padding: 12px;
+    }
+}
+
+/* The Background Video */
+.bg-video {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    /* Lets height scale naturally */
+    aspect-ratio: 16 / 9;
+    /* Maintains perfect proportions */
+
+    /* 2. Scale and crop the video inside its container limits */
+    object-fit: cover;
+    object-position: center;
+
+    z-index: 1;
+}
+
+/* The Foreground Content */
+.banner-content {
+    position: relative;
+    z-index: 2;
+    /* Keeps text stacked cleanly above the video */
+    text-align: center;
+    color: #ffffff;
+    padding: 20px;
+}
+
+/* Banner overlay typewriter — match hero sizes */
+#type-text-banner {
+    padding: 2rem 2rem;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 16px;
+    min-height: 3.5rem;
+    /* reserve vertical space to avoid layout jumps while typing */
+    line-height: 1.3;
+}
+
+/* Typed text wrapper and style helpers to avoid swapping HTML tags during typing */
+#type-text-banner .typed-wrapper {
+    display: inline-block;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+#type-text-banner .style-bold {
+    font-weight: 700;
+}
+
+#type-text-banner .style-italic {
+    font-style: italic;
+}
+
+
+/* 3. Phone size */
+@media (max-width: 360px) {
+    #type-text-banner {
+        font-size: 10px;
+        padding: 10px 10px;
+    }
+}
+
+
+/* 4. Large Desktop size (Screens 1200px wide or wider) */
+@media (min-width: 1200px) {
+    #type-text-banner {
         font-size: 30px;
     }
 }
