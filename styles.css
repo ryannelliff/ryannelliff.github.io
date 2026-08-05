@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
 :root:has(input.theme-controller[value=mytheme]:checked),
 [data-theme="mytheme"] {
     /* mytheme is the name of the custom theme */
@@ -41,6 +43,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: 'Poppins', sans-serif;
 }
 
 #type-text {
@@ -149,6 +152,21 @@ body {
     padding: 20px;
 }
 
+/* Ensure the mobile hamburger dropdown appears above the video banner */
+.navbar,
+.dropdown {
+    position: relative;
+    z-index: 9999;
+    overflow: visible;
+    /* allow dropdown to escape container */
+}
+
+.dropdown-content {
+    position: absolute !important;
+    z-index: 10000 !important;
+    overflow: visible !important;
+}
+
 /* Banner overlay typewriter — match hero sizes */
 #type-text-banner {
     padding: 2rem 2rem;
@@ -190,5 +208,27 @@ body {
 @media (min-width: 1200px) {
     #type-text-banner {
         font-size: 30px;
+    }
+}
+
+.grid-container {
+    display: grid;
+    content: fit;
+    grid-template-columns: repeat(3, 1fr);
+    /* Creates 3 columns of equal width */
+    gap: 20px;
+    /* Space between the columns */
+}
+
+.column {
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Responsive design: Stack vertically on mobile screens */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        /* Drops to 1 column on mobile */
     }
 }
